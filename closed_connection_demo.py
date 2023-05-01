@@ -111,7 +111,7 @@ class Tableau:
 
 		result = True
 		for child in root.children:
-			result = result and self.are_all_branches_closed_helpercle(child, [child.literal] + path_to_node)
+			result = result and self.are_all_branches_closed_helper(child, [child.literal] + path_to_node)
 
 		return result and (str(root.literal.negate()) in path_to_node)
 	
@@ -123,6 +123,8 @@ class Tableau:
 	# return all expansion result to a list of tableau objects
 	def expand_basic(self):
 		queue_size = len(self.leaf_queue)
+		possible_actions = []
+
 		for i in range(queue_size):
 			leaf = self.leaf_queue[i]
 			print("Expanding leaf node: " + str(leaf.literal))
@@ -132,7 +134,6 @@ class Tableau:
 
 			# choose a clause to expand
 			# for now, just go through each clause that has the negation of the goal literal
-			possible_actions = []
 			
 			for axiom in self.axioms:
 				axiom_literals = parse(axiom)
